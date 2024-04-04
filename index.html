@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{ .PageTitle }}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/static/css/styles.css">
+    </head>
+
+    <body>
+        <h1>{{ .PageTitle }}</h1>
+        <ul>
+            {{range .Todos}}
+                <li>
+                    <span>
+                        <form method="POST" action="/todo/{{ .Id }}">
+                            <input type="hidden" name="done" value="{{ if .Done }}false{{ else }}true{{ end }}" />
+                            <button type="submit">
+                                {{ if .Done }}Un-complete{{ else }}Complete{{ end }}
+                            </button>
+                        </form>
+                        {{.Title}}
+                        <form method="POST" action="/todo/{{ .Id }}/delete">
+                            <input type="hidden" />
+                            <button type="submit">Delete</button>
+                        </form>
+                    </span>
+                </li>
+            {{end}}
+        </ul>
+
+        <form method="POST" action="/todo">
+            <span>
+                <label for="new-todo">add new</label>
+                <input id="new-todo" name="new-todo" type="text" /> 
+                <button type="submit">Add</button>
+            </span>
+        </form>
+    </body>
+</html>
